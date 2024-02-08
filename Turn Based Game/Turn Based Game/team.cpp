@@ -2,7 +2,10 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <map>
+#include <random>
 #include "monster.h"
+
 
 
 class Team
@@ -33,22 +36,30 @@ public:
 
 void main()
 {
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
 	int character_id = 1;
 	bool game_end = false;
 	Team player_team;
 	std::string characters[5] = { "Geralt", "Yennefer", "Triss", "Ciri", "Regis" };
 	std::string elements[5] = { "Water", "Fire", "Wind", "Light", "Dark" };
 	int player_choice;
+
+	Monster dummy_mon("Dummy", 10, 100, "Dark");
 	while (game_end == false)
 	{
-		while (true) {
+		while (true) 
+		{
 			std::cout << "\n==============================\n1. Summon a character" << std::endl << "2. View team" << std::endl << "Enter: " << std::endl;
 			std::cin >> player_choice;
-			if (player_choice == 1 || player_choice == 2) {
+			if (player_choice == 1 || player_choice == 2 || player_choice == 3) 
+			{
 				break;
 			}
-			else {
-				std::cout << "Invalid input. Please enter a number between 1-2" << std::endl;
+			else 
+			{
+				std::cout << "Invalid input. Please enter a number between 1-3" << std::endl;
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -58,11 +69,13 @@ void main()
 
 		if (player_choice == 1)
 		{
-			int RandIndex = rand() % 5;
-			int RandElem = rand() % 5;
+			int RandIndex = std::uniform_int_distribution<int>(0, 4)(gen);
+			int RandElem = std::uniform_int_distribution<int>(0, 4)(gen); 
+			
+			int character_attack = std::uniform_int_distribution<int>(10, 20)(gen); 
+			int character_health = std::uniform_int_distribution<int>(90, 120)(gen);
+
 			std::string character_name = characters[RandIndex];
-			int character_attack = rand() % (21 - 10) + 10;
-			int character_health = rand() % (121 - 90) + 90;
 			std::string character_elem = elements[RandElem];
 
 			Monster new_character(character_name, character_attack, character_health, character_elem);
@@ -77,6 +90,20 @@ void main()
 		else if (player_choice == 2)
 		{
 			player_team.display_team();
+		}
+
+		else if (player_choice == 3)
+		{
+			
+			Monster& current_mon = player_team.team_members.front();
+
+			std::cout << "Current mon element: " << current_mon.element << std::endl;
+			std::cout << "Current mon attack: " << current_mon.attack << std::endl;
+
+
+			current_mon.Attack(current_mon,dummy_mon);
+			
+			current_mon.Attack(current_mon, dummy_mon);
 		}
 
 

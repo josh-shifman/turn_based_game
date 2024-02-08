@@ -1,6 +1,9 @@
+#pragma once
 #include <iostream>
 #include <list>
 #include <string>
+#include <map>
+#include <random>
 	
 class Monster
 {
@@ -13,7 +16,9 @@ public:
 	
 	Monster(std::string n, int a, int h, std::string e) : name(n), attack(a), health(h), element(e) {}
 
-	void Attack(Monster other) {};
+	std::map<std::string, std::map<std::string, double>> element_relations{}	;
 
-	void take_damage(int other_attack){};
+	void Attack(Monster& self, Monster& other);
+
+	void take_damage(Monster& self, int damage);
 };
