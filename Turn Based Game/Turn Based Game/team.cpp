@@ -1,35 +1,9 @@
+
 #include <iostream>
 #include <list>
 #include <string>
+#include "monster.h"
 
-class Monster
-{
-
-public:
-	std::string name;
-	std::string element;
-	int health = 100;
-	int attack = 10;
-
-	Monster(std::string n, int a, std::string e) : name(n), attack(a), element(e) {}
-
-	void Attack(Monster other)
-	{
-		std::cout << health << std::endl;
-		other.take_damage(attack);
-
-	};
-
-	void take_damage(int other_attack)
-	{
-		health -= other_attack;
-		std::cout << health << std::endl;
-		if (health <= 0)
-		{
-			std::cout << "Game over" << std::endl;
-		}
-	};
-};
 
 class Team
 {
@@ -88,10 +62,12 @@ void main()
 			int RandElem = rand() % 5;
 			std::string character_name = characters[RandIndex];
 			int character_attack = rand() % (21 - 10) + 10;
+			int character_health = rand() % (121 - 90) + 90;
 			std::string character_elem = elements[RandElem];
 
-			Monster new_character(character_name, character_attack, character_elem);
+			Monster new_character(character_name, character_attack, character_health, character_elem);
 			std::cout << "Summoned " << new_character.name << std::endl;
+			std::cout << "Health: " << new_character.health << std::endl;
 			std::cout << "Attack: " << new_character.attack << std::endl;
 			std::cout << "Element: " << new_character.element << std::endl;
 
