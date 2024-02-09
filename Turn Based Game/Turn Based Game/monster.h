@@ -14,9 +14,9 @@ public:
 	int health;
 	int attack;
 	
-	Monster(std::string n, int a, int h, std::string e) : name(n), attack(a), health(h), element(e) {}
+	Monster(std::string n, int a, int h, std::string e) : name(n), attack(a), health(h), element(e) {};
 
-	std::map<std::string, std::map<std::string, double>> element_relations{}	;
+	std::map<std::string, std::map<std::string, double>> element_relations{};
 
 	void Attack(Monster& self, Monster& other);
 

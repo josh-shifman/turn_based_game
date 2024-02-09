@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="team.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="monster.h" />
+    <ClInclude Include="team.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
