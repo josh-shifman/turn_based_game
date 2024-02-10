@@ -4,7 +4,8 @@
 #include <map>
 #include <random>
 #include "monster.h"
-
+extern std::random_device rd;
+extern std::mt19937 gen;
 
 std::map<std::string, std::map<std::string, double>> element_relations = {
 		{"fire", {{"fire", 1.0}, {"water", 0.5}, {"wind", 2.0}, {"light", 0.5}, {"dark", 2.0}}},
@@ -20,8 +21,6 @@ void Monster::Attack(Monster& self, Monster& other)
 	double effectiveness = element_relations[self.element][other.element];
 	double damage = self.attack;
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
 	std::uniform_real_distribution<double> dis(0, 1); 
 	double critical_chance = 0.5;
 	if (effectiveness > 1.0) {
@@ -31,7 +30,6 @@ void Monster::Attack(Monster& self, Monster& other)
 	if (dis(gen) < critical_chance) {
 		damage *= 2; 
 	}
-	std::cout << damage << std::endl;
 	other.take_damage(self, damage);
 		
 };
@@ -39,5 +37,5 @@ void Monster::Attack(Monster& self, Monster& other)
 void Monster::take_damage(Monster& self, int damage)
 	{
 		self.health -= damage;
-		std::cout << "Health remaining: " << self.health << std::endl;
+		std::cout << "Dealt " << damage << "Damage to " << self.element << " " << self.name << ". Health remaining : " << self.health << std::endl;
 	};

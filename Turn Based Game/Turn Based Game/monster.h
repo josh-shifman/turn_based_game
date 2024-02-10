@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include <list>
@@ -13,6 +14,8 @@ public:
 	std::string element;
 	int health;
 	int attack;
+	//Ability ability_1;
+	//Ability ability_2;
 	
 	Monster(std::string n, int a, int h, std::string e) : name(n), attack(a), health(h), element(e) {};
 

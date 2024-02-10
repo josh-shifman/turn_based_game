@@ -4,7 +4,6 @@
 #include "team.h"
 #include "monster.h"
 
-
 std::list<Monster> all_monsters;
 std::list<Monster> team_members;
 
@@ -80,3 +79,8 @@ void Team::display_team(bool collection_or_team)
 
 }
 
+
+void Team::attack_other_team(Team other) 
+{
+
+}
