@@ -126,13 +126,6 @@ void main()
 
 		else if (main_menu_choice == 3)
 		{
-			
-			//Monster& current_mon = player_team.team_members.front();
-
-			//std::cout << "Current mon element: " << current_mon.element << std::endl;
-			//std::cout << "Current mon attack: " << current_mon.attack << std::endl;
-
-
 			enemy enemy_1;
 			enemy_1.generate_team();
 

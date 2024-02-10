@@ -48,7 +48,7 @@ void Team::display_team(bool collection_or_team)
 		std::list<Monster>::iterator it;
 		for (it = team_members.begin(); it != team_members.end(); ++it)
 		{
-			std::cout << counter << ". [" << it->element << " " << it->name << ", Health: " << it->health << ",  Attack: " << it->attack << "]";
+			std::cout << counter << ". [" << it->element << " " << it->name << ", Health: " << it->health << "/ " << it->max_health << ",  Attack: " << it->attack << "]";
 			counter++;
 			if (std::distance(it, team_members.end()) > 1)
 
@@ -64,7 +64,7 @@ void Team::display_team(bool collection_or_team)
 		std::list<Monster>::iterator it;
 		for (it = all_monsters.begin(); it != all_monsters.end(); ++it)
 		{
-			std::cout << counter << ". [" << it->element << " " << it->name << ", Health: " << it->health << ",  Attack: " << it->attack << "]";
+			std::cout << counter << ". [" << it->element << " " << it->name << ", Health: " << it->health << "/ " << it->max_health << ",  Attack: " << it->attack << "]";
 			counter++;
 			if (std::distance(it, all_monsters.end()) > 1)
 

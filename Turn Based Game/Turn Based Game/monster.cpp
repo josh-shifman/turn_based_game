@@ -46,12 +46,39 @@ void Monster::take_damage(Monster& self, int damage)
 	};
 
 void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, Ability chosen_ability)
+{
+	if (num_of_attacks == 5)
 	{
-		if (num_of_attacks == 5)
+		for (Monster& teammate : other.team_members)
 		{
-			for (Monster& teammate : other.team_members)
-			{
-				attacking_monster.Attack(attacking_monster, teammate, chosen_ability);
-			}
+			attacking_monster.Attack(attacking_monster, teammate, chosen_ability);
 		}
 	}
+	else
+	{
+		std::list<Monster*> selected_teammates;
+		std::list<Monster*> remaining_teammates;
+
+		for (Monster& monster : other.team_members) {
+			remaining_teammates.push_back(&monster);
+		}
+
+		// Select random indexes from the remaining_teammates list and add the corresponding pointers to selected_teammates
+		while (selected_teammates.size() < num_of_attacks && !remaining_teammates.empty()) {
+			std::uniform_int_distribution<int> dist(0, remaining_teammates.size() - 1);
+			int index = dist(rd);
+
+			auto it = remaining_teammates.begin();
+			std::advance(it, index);
+
+			selected_teammates.push_back(*it);
+
+			remaining_teammates.erase(it);
+		}
+
+		for (Monster* teammate : selected_teammates)
+		{
+			attacking_monster.Attack(attacking_monster, *teammate, chosen_ability);
+		}
+	}
+}
