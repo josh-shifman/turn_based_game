@@ -67,7 +67,7 @@ void main()
 			std::string character_name = characters[RandIndex];
 			std::string character_elem = elements[RandElem];
 
-			Monster new_character(character_name, character_attack, character_health, character_elem);
+			Monster new_character(character_name, character_attack, character_health, character_health, character_elem);
 			std::cout << "Summoned " << new_character.name << std::endl;
 			std::cout << "Health: " << new_character.health << std::endl;
 			std::cout << "Attack: " << new_character.attack << std::endl;
@@ -157,27 +157,25 @@ void main()
 				int ability_choice = validate_input("\n==============================\nSelect ability: ", select_ability_opts);
 				Ability selected_ability{};
 				if (ability_choice == 1) {
-					Ability selected_ability = characterAbilities[selected_mon.name].first;
+					selected_ability = characterAbilities[selected_mon.name].first;
 				}
 				else {
-					Ability selected_ability = characterAbilities[selected_mon.name].second;
+					selected_ability = characterAbilities[selected_mon.name].second;
 				}
 
-				if (selected_ability.multiple == 0)
+				if (selected_ability.multiple == 1)
 				{
 					std::list<int> select_enemy_opts = { 1, 2, 3, 4, 5 };
 					int select_enemy_choice = validate_input("\n==============================\nSelect enemy to attack: ", select_char_opts);
 					auto it_enemy = enemy_1.enemy_team.team_members.begin();
-					std::advance(it_enemy, select_char_choice - 1);
+					std::advance(it_enemy, select_enemy_choice - 1);
 					Monster selected_enemy_mon = *it_enemy;
-					std::cin.clear();
-					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					system("cls");
-					selected_mon.Attack(selected_mon, selected_enemy_mon);
+
+					selected_mon.Attack(selected_mon, selected_enemy_mon, selected_ability);
 				}
 				else
 				{
-					std::cout << selected_ability.multiple;
+					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, selected_ability.multiple, selected_ability);
 				}
 
 				

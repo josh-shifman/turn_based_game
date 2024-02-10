@@ -79,8 +79,3 @@ void Team::display_team(bool collection_or_team)
 
 }
 
-
-void Team::attack_other_team(Team other) 
-{
-
-}

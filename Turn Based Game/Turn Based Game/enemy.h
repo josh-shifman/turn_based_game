@@ -6,7 +6,6 @@
 #include "monster.h"
 #include <random>
 #include <numeric>
-#include "ability.h"
 
 class enemy
 {

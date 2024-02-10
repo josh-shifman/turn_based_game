@@ -28,7 +28,7 @@ void enemy::generate_team()
 		std::string character_name = characters[RandIndex];
 		std::string character_elem = elements[RandElem];
 
-		Monster new_character(character_name, character_attack, character_health, character_elem);
+		Monster new_character(character_name, character_attack, character_health, character_health, character_elem);
 
 		enemy_team.add_to_team(new_character);
 	}

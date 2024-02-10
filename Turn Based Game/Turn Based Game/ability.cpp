@@ -5,7 +5,6 @@
 #include <sstream>
 #include <random>
 #include <numeric>
-#include "enemy.h"
 #include "ability.h"
 
 
@@ -17,10 +16,3 @@ std::map<std::string, std::pair<Ability, Ability>> characterAbilities = {
 	{"Regis", std::make_pair(Ability("Blood leech", 1.25, 1, false, 0), Ability("Blood explosion", 0.75, 5, false, 4))}
 };
 
-void Ability::attack_units(Team team_to_attack)
-{
-	// int d_multiplyer;
-	// int multiple; // Number of enemies to attack
-	// bool freeze; // True if freezes enemies for one turn
-	// int cooldown;
-}
