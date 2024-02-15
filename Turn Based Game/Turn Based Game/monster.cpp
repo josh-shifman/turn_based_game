@@ -8,6 +8,7 @@
 #include "team.h"
 extern std::random_device rd;
 extern std::mt19937 gen;
+
 std::map<std::string, std::map<std::string, double>> element_relations = {
 		{"fire", {{"fire", 1.0}, {"water", 0.5}, {"wind", 2.0}, {"light", 0.5}, {"dark", 2.0}}},
 		{"water", {{"fire", 2.0}, {"water", 1.0}, {"wind", 0.5}, {"light", 2.0}, {"dark", 0.5}}},
@@ -16,8 +17,10 @@ std::map<std::string, std::map<std::string, double>> element_relations = {
 		{"dark", {{"fire", 0.5}, {"water", 2.0}, {"wind", 0.5}, {"light", 2.0}, {"dark", 1.0}}}
 };
 
+
+
 void Monster::Attack(Monster& self, Monster& other, Ability chosen_ability)
-{	
+{
 	// Critical strike chance against neutral enemy is 50%, with element advantage 75%, with element disadvantage 25%
 	double effectiveness = element_relations[self.element][other.element];
 	double damage = self.attack;
@@ -47,6 +50,7 @@ void Monster::take_damage(Monster& self, int damage)
 
 void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, Ability chosen_ability)
 {
+	std::cout << ability_1->attack_name;
 	if (num_of_attacks == 5)
 	{
 		for (Monster& teammate : other.team_members)
@@ -81,4 +85,23 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 			attacking_monster.Attack(attacking_monster, *teammate, chosen_ability);
 		}
 	}
+}
+
+int Monster::ability_cooldown(Monster& self, Ability chosen_ability, int current_cooldown)
+{
+	return 0;
+	/*
+	if (chosen_ability.cooldown == 0)
+	{
+		if (chosen_ability.attack_name == characterAbilities[self.name].first.attack_name) {
+			chosen_ability.cooldown = characterAbilities[self.name].first.cooldown;
+		}
+		else {
+			chosen_ability.cooldown = characterAbilities[self.name].second.cooldown;
+		}
+		return 0;
+	}
+
+	chosen_ability.cooldown = chosen_ability.cooldown - 1;
+	*/
 }

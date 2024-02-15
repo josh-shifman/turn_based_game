@@ -66,8 +66,9 @@ void main()
 
 			std::string character_name = characters[RandIndex];
 			std::string character_elem = elements[RandElem];
-
-			Monster new_character(character_name, character_attack, character_health, character_health, character_elem);
+			Ability* ab_1 = &characterAbilities[character_name].first;
+			Ability* ab_2 = &characterAbilities[character_name].second;
+			Monster new_character(character_name, character_attack, character_health, character_health, character_elem, ab_1, ab_2);
 			std::cout << "Summoned " << new_character.name << std::endl;
 			std::cout << "Health: " << new_character.health << std::endl;
 			std::cout << "Attack: " << new_character.attack << std::endl;
@@ -178,3 +179,4 @@ void main()
 
 	}
 };
+

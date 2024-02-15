@@ -79,3 +79,10 @@ void Team::display_team(bool collection_or_team)
 
 }
 
+void Team::reduce_cooldowns() {
+	std::list<Monster>::iterator it;
+	for (it = team_members.begin(); it != team_members.end(); ++it)
+	{
+
+	}
+}
