@@ -27,11 +27,11 @@ public:
 
 	std::map<std::string, std::map<std::string, double>> element_relations{};
 
-	void Attack(Monster& self, Monster& other, Ability chosen_ability);
+	void Attack(Monster& self, Monster& other, int ability_number);
 
 	void take_damage(Monster& self, int damage);
 
-	void attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, Ability chosen_ability);
+	void attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, int chosen_ability);
 
 	int ability_cooldown(Monster& self, Ability chosen_ability, int current_cooldown);
 };

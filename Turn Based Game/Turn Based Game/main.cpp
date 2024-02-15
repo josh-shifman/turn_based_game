@@ -165,11 +165,11 @@ void main()
 					std::advance(it_enemy, select_enemy_choice - 1);
 					Monster selected_enemy_mon = *it_enemy;
 
-					selected_mon.Attack(selected_mon, selected_enemy_mon, selected_ability);
+					selected_mon.Attack(selected_mon, selected_enemy_mon, ability_choice);
 				}
 				else
 				{
-					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, selected_ability.multiple, selected_ability);
+					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, selected_ability.multiple, ability_choice);
 				}
 
 				

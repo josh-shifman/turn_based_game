@@ -19,9 +19,19 @@ std::map<std::string, std::map<std::string, double>> element_relations = {
 
 
 
-void Monster::Attack(Monster& self, Monster& other, Ability chosen_ability)
+void Monster::Attack(Monster& self, Monster& other, int ability_number)
 {
 	// Critical strike chance against neutral enemy is 50%, with element advantage 75%, with element disadvantage 25%
+	Ability chosen_ability{};
+	if (ability_number == 1)
+	{
+		chosen_ability = *ability_1;
+	}
+	else
+	{
+		chosen_ability = *ability_2;
+	}
+
 	double effectiveness = element_relations[self.element][other.element];
 	double damage = self.attack;
 
@@ -48,14 +58,22 @@ void Monster::take_damage(Monster& self, int damage)
 		std::cout << " dealt " << damage << " Damage to " << self.element << " " << self.name << ". Health remaining : " << self.health << std::endl;
 	};
 
-void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, Ability chosen_ability)
+void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, int ability_number)
 {
-	std::cout << ability_1->attack_name;
+	Ability chosen_ability{};
+	if (ability_number == 1)
+	{
+		chosen_ability = *ability_1;
+	}
+	else
+	{
+		chosen_ability = *ability_2;
+	}
 	if (num_of_attacks == 5)
 	{
 		for (Monster& teammate : other.team_members)
 		{
-			attacking_monster.Attack(attacking_monster, teammate, chosen_ability);
+			attacking_monster.Attack(attacking_monster, teammate, ability_number);
 		}
 	}
 	else
@@ -82,7 +100,7 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 
 		for (Monster* teammate : selected_teammates)
 		{
-			attacking_monster.Attack(attacking_monster, *teammate, chosen_ability);
+			attacking_monster.Attack(attacking_monster, *teammate, ability_number);
 		}
 	}
 }
