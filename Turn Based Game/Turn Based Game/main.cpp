@@ -129,9 +129,12 @@ void main()
 		{
 			enemy enemy_1;
 			enemy_1.generate_team();
+			player_team.begin_battle();
 
 			while (true)
 			{
+				player_team.reduce_cooldowns();
+
 				std::cout << "\n==============================\nPlayer team:\n";
 				player_team.display_team(true);
 				std::cout << "\n==============================\nEnemy team:\n";

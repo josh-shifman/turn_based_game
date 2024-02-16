@@ -12,4 +12,5 @@ public:
 	void swap_team(int old_mon, int new_mon);
 	void display_team(bool collection_or_team);
 	void reduce_cooldowns();
+	void begin_battle();
 };

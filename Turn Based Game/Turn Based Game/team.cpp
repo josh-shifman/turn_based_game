@@ -3,6 +3,7 @@
 #include <string>
 #include "team.h"
 #include "monster.h"
+#include "ability.h"
 
 std::list<Monster> all_monsters;
 std::list<Monster> team_members;
@@ -83,6 +84,22 @@ void Team::reduce_cooldowns() {
 	std::list<Monster>::iterator it;
 	for (it = team_members.begin(); it != team_members.end(); ++it)
 	{
-
+		if (it->ability_1->cooldown > 0)
+		{
+			it->ability_1->cooldown -= 1;
+		}
+		if (it->ability_2->cooldown > 0)
+		{
+			it->ability_2->cooldown -= 1;
+		}
+			
+	}
+}
+void Team::begin_battle() {
+	std::list<Monster>::iterator it;
+	for (it = team_members.begin(); it != team_members.end(); ++it)
+	{
+		it->ability_1->cooldown = 0;
+		it->ability_2->cooldown = 0;
 	}
 }

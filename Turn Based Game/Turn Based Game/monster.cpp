@@ -60,15 +60,27 @@ void Monster::take_damage(Monster& self, int damage)
 
 void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, int ability_number)
 {
-	Ability chosen_ability{};
+	Ability* chosen_ability = nullptr;
+
+	std::cout << "Cooldown: " << ability_2->cooldown << std::endl;
 	if (ability_number == 1)
 	{
-		chosen_ability = *ability_1;
+		chosen_ability = ability_1;
 	}
 	else
 	{
-		chosen_ability = *ability_2;
+		chosen_ability = ability_2;
 	}
+	if (chosen_ability->cooldown > 0)
+	{
+		ability_cooldown(attacking_monster, chosen_ability);
+		return;
+	}
+	else
+	{
+		ability_cooldown(attacking_monster, chosen_ability);
+	}
+
 	if (num_of_attacks == 5)
 	{
 		for (Monster& teammate : other.team_members)
@@ -105,21 +117,22 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 	}
 }
 
-int Monster::ability_cooldown(Monster& self, Ability chosen_ability, int current_cooldown)
+void Monster::ability_cooldown(Monster& self, Ability* chosen_ability)
 {
-	return 0;
-	/*
-	if (chosen_ability.cooldown == 0)
+	if (chosen_ability->cooldown > 0)
 	{
-		if (chosen_ability.attack_name == characterAbilities[self.name].first.attack_name) {
-			chosen_ability.cooldown = characterAbilities[self.name].first.cooldown;
+		std::cout << "Cooldown: " << chosen_ability->cooldown << std::endl;
+	}
+	else
+	{
+		
+		if (chosen_ability->attack_name == characterAbilities[self.name].first.attack_name) {
+			ability_1->cooldown = characterAbilities[self.name].first.cooldown;
+			
 		}
 		else {
-			chosen_ability.cooldown = characterAbilities[self.name].second.cooldown;
+			ability_2->cooldown = characterAbilities[self.name].second.cooldown;
+			std::cout << "COOLDOWN ==== US SUS: " << characterAbilities[self.name].second.cooldown << std::endl;
 		}
-		return 0;
 	}
-
-	chosen_ability.cooldown = chosen_ability.cooldown - 1;
-	*/
 }

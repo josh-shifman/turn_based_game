@@ -33,5 +33,5 @@ public:
 
 	void attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, int chosen_ability);
 
-	int ability_cooldown(Monster& self, Ability chosen_ability, int current_cooldown);
+	void ability_cooldown(Monster& self, Ability* chosen_ability);
 };
