@@ -62,7 +62,6 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 {
 	Ability* chosen_ability = nullptr;
 
-	std::cout << "Cooldown: " << ability_2->cooldown << std::endl;
 	if (ability_number == 1)
 	{
 		chosen_ability = ability_1;
@@ -119,20 +118,13 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 
 void Monster::ability_cooldown(Monster& self, Ability* chosen_ability)
 {
-	if (chosen_ability->cooldown > 0)
-	{
-		std::cout << "Cooldown: " << chosen_ability->cooldown << std::endl;
-	}
-	else
 	{
 		
-		if (chosen_ability->attack_name == characterAbilities[self.name].first.attack_name) {
-			ability_1->cooldown = characterAbilities[self.name].first.cooldown;
-			
+		if (chosen_ability->attack_name == std::get<0>(characterAbilities[self.name].first)) {
+			ability_1->cooldown = std::get<4>(characterAbilities[self.name].first);
 		}
 		else {
-			ability_2->cooldown = characterAbilities[self.name].second.cooldown;
-			std::cout << "COOLDOWN ==== US SUS: " << characterAbilities[self.name].second.cooldown << std::endl;
+			ability_2->cooldown = std::get<4>(characterAbilities[self.name].second);
 		}
 	}
 }

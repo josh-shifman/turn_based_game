@@ -66,8 +66,15 @@ void main()
 
 			std::string character_name = characters[RandIndex];
 			std::string character_elem = elements[RandElem];
-			Ability* ab_1 = &characterAbilities[character_name].first;
-			Ability* ab_2 = &characterAbilities[character_name].second;
+			auto it = characterAbilities.find(character_name);
+
+			auto ability1 = it->second.first;
+			auto ability2 = it->second.second;
+
+			Ability* ab_1 = new Ability(std::get<0>(ability1), std::get<1>(ability1), std::get<2>(ability1), std::get<3>(ability1), std::get<4>(ability1));
+			Ability* ab_2 = new Ability(std::get<0>(ability2), std::get<1>(ability2), std::get<2>(ability2), std::get<3>(ability2), std::get<4>(ability2));
+
+
 			Monster new_character(character_name, character_attack, character_health, character_health, character_elem, ab_1, ab_2);
 			std::cout << "Summoned " << new_character.name << std::endl;
 			std::cout << "Health: " << new_character.health << std::endl;
@@ -133,7 +140,6 @@ void main()
 
 			while (true)
 			{
-				player_team.reduce_cooldowns();
 
 				std::cout << "\n==============================\nPlayer team:\n";
 				player_team.display_team(true);
@@ -147,33 +153,42 @@ void main()
 				auto it1 = player_team.team_members.begin();
 				std::advance(it1, select_char_choice - 1);
 				Monster selected_mon = *it1;
-				std::cout << "\n==============================\nAbility 1: " << characterAbilities[selected_mon.name].first.attack_name << std::endl;
-				std::cout << "Ability 2: " << characterAbilities[selected_mon.name].second.attack_name << std::endl;
+				std::cout << "\n==============================\nAbility 1: " << std::get<0>(characterAbilities[selected_mon.name].first) << std::endl;
+				std::cout << "Ability 2: " << std::get<0>(characterAbilities[selected_mon.name].second) << std::endl;
 
 				std::list<int> select_ability_opts = { 1, 2 };
 				int ability_choice = validate_input("\n==============================\nSelect ability: ", select_ability_opts);
-				Ability selected_ability{};
+
+				std::tuple<std::string, double, int, bool, int> selected_ability;
+
 				if (ability_choice == 1) {
 					selected_ability = characterAbilities[selected_mon.name].first;
 				}
 				else {
 					selected_ability = characterAbilities[selected_mon.name].second;
-				}
 
-				if (selected_ability.multiple == 1)
+				}
+				if (ability_choice == 2 && selected_mon.ability_2->cooldown > 0)
+				{ 
+					std::cout << "Ability on Cooldown: " << selected_mon.ability_2->cooldown << " turns." << std::endl;
+					continue;
+				}
+				if (std::get<2>(selected_ability) == 1)
 				{
 					std::list<int> select_enemy_opts = { 1, 2, 3, 4, 5 };
 					int select_enemy_choice = validate_input("\n==============================\nSelect enemy to attack: ", select_char_opts);
 					auto it_enemy = enemy_1.enemy_team.team_members.begin();
 					std::advance(it_enemy, select_enemy_choice - 1);
-					Monster selected_enemy_mon = *it_enemy;
+					Monster& selected_enemy_mon = *it_enemy;
 
 					selected_mon.Attack(selected_mon, selected_enemy_mon, ability_choice);
 				}
 				else
 				{
-					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, selected_ability.multiple, ability_choice);
+					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, std::get<2>(selected_ability), ability_choice);
 				}
+
+				player_team.reduce_cooldowns();
 
 				
 			}

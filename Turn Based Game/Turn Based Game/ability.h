@@ -25,4 +25,4 @@ public:
 	
 
 };
-extern std::map<std::string, std::pair<Ability, Ability>> characterAbilities;
+extern std::map<std::string, std::pair<std::tuple<std::string, double, int, bool, int>, std::tuple<std::string, double, int, bool, int>>> characterAbilities;
