@@ -38,8 +38,6 @@ int validate_input(std::string prompt, std::list<int> options)
 	}
 	return player_choice;
 }
-
-
 void main()
 {
 	bool game_end = false;
@@ -47,21 +45,21 @@ void main()
 	std::string characters[5] = { "Geralt", "Yennefer", "Triss", "Ciri", "Regis" };
 
 	std::string elements[5] = { "Water", "Fire", "Wind", "Light", "Dark" };
-	
-	
+
+
 
 	while (game_end == false)
 	{
 		std::list<int> main_menu_options = { 1, 2, 3 };
-		int main_menu_choice = validate_input("\n==============================\n1. Summon a character\n2. Modify team\n3. Enter battle\nEnter: ",main_menu_options);
+		int main_menu_choice = validate_input("\n==============================\n1. Summon a character\n2. Modify team\n3. Enter battle\nEnter: ", main_menu_options);
 		system("cls");
 
 		if (main_menu_choice == 1)
 		{
 			int RandIndex = std::uniform_int_distribution<int>(0, 4)(gen);
-			int RandElem = std::uniform_int_distribution<int>(0, 4)(gen); 
-			
-			int character_attack = std::uniform_int_distribution<int>(10, 20)(gen); 
+			int RandElem = std::uniform_int_distribution<int>(0, 4)(gen);
+
+			int character_attack = std::uniform_int_distribution<int>(10, 20)(gen);
 			int character_health = std::uniform_int_distribution<int>(90, 120)(gen);
 
 			std::string character_name = characters[RandIndex];
@@ -80,7 +78,7 @@ void main()
 			std::cout << "Health: " << new_character.health << std::endl;
 			std::cout << "Attack: " << new_character.attack << std::endl;
 			std::cout << "Element: " << new_character.element << std::endl;
-			
+
 
 			player_team.add_to_team(new_character);
 		}
@@ -89,7 +87,7 @@ void main()
 			while (true)
 			{
 				std::list<int> team_menu_options = { 1, 2, 3, 4 };
-				int team_menu_choice = validate_input("\n==============================\n1. View Team\n2. View collection\n3. Swap character\n4. Return to main menu\nEnter: ",team_menu_options);
+				int team_menu_choice = validate_input("\n==============================\n1. View Team\n2. View collection\n3. Swap character\n4. Return to main menu\nEnter: ", team_menu_options);
 
 				system("cls");
 
@@ -120,7 +118,7 @@ void main()
 
 					int add_monster_choice = validate_input(formatted_string, collection_numbers);
 					player_team.swap_team(swap_teammate_choice, add_monster_choice);
-				}	
+				}
 
 				else if (team_menu_choice == 4)
 				{
@@ -137,6 +135,7 @@ void main()
 			enemy enemy_1;
 			enemy_1.generate_team();
 			player_team.begin_battle();
+			enemy_1.enemy_team.begin_battle();
 			std::list<Monster> old_team = player_team.team_members;
 
 			while (true)
@@ -146,7 +145,7 @@ void main()
 				player_team.display_team(true);
 				std::cout << "\n==============================\nEnemy team:\n";
 				enemy_1.enemy_team.display_team(true);
-				
+
 				std::cout << "\n==============================\n0. Exit\n";
 
 				std::list<int> select_char_opts;
@@ -158,7 +157,7 @@ void main()
 				//std::list<int> select_char_opts = { 1, 2, 3, 4, 5, 0 };
 				select_char_opts.push_back(0);
 				int select_char_choice = validate_input("Select character (1-5): ", select_char_opts);
-				
+
 
 				if (select_char_choice == 0) {
 					std::cout << "Exiting...\n";
@@ -178,7 +177,7 @@ void main()
 				std::tuple<std::string, double, int, bool, int> selected_ability;
 
 
-				
+
 				if (ability_choice == 1) {
 					selected_ability = characterAbilities[selected_mon.name].first;
 				}
@@ -186,20 +185,26 @@ void main()
 					selected_ability = characterAbilities[selected_mon.name].second;
 
 				}
+				if (ability_choice == 1 && selected_mon.ability_1->cooldown > 0)
+				{
+					std::cout << "Ability on Cooldown: " << selected_mon.ability_1->cooldown << " turns." << std::endl;
+					continue;
+				}
 				if (ability_choice == 2 && selected_mon.ability_2->cooldown > 0)
-				{ 
+				{
 					std::cout << "Ability on Cooldown: " << selected_mon.ability_2->cooldown << " turns." << std::endl;
 					continue;
 				}
 				if (std::get<2>(selected_ability) == 1)
 				{
 					std::list<int> select_enemy_opts = { 1, 2, 3, 4, 5 };
-					int select_enemy_choice = validate_input("\n==============================\nSelect enemy to attack (1-5): ", select_char_opts);
+					int select_enemy_choice = validate_input("\nSelect enemy to attack (1-5): ", select_char_opts);
 					auto it_enemy = enemy_1.enemy_team.team_members.begin();
 					std::advance(it_enemy, select_enemy_choice - 1);
 					Monster& selected_enemy_mon = *it_enemy;
+					std::cout << "\n==============================\nPlayer attacked with: " << selected_mon.element << " " << selected_mon.name << std::endl;
 
-					
+
 					selected_mon.Attack(selected_mon, selected_enemy_mon, ability_choice, enemy_1.enemy_team);
 				}
 				else
@@ -207,13 +212,25 @@ void main()
 					selected_mon.attack_other_team(selected_mon, enemy_1.enemy_team, std::get<2>(selected_ability), ability_choice);
 				}
 
-				player_team.reduce_cooldowns();
 
+				if (enemy_1.enemy_team.team_members.empty()) {
+					std::cout << "\n==============================\nPlayer has won! " << std::endl;
+					break;
+				}
 				
+				enemy_1.select_move(player_team);
+
+				if (player_team.team_members.empty()) {
+					std::cout << "\n==============================\Enemy has won. " << std::endl;
+					break;
+				}
+				player_team.reduce_cooldowns();
+				enemy_1.enemy_team.reduce_cooldowns();
+
+
 			}
 		}
 
 
 	}
 };
-

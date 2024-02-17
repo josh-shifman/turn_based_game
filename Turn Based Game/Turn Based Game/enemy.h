@@ -12,5 +12,9 @@ class enemy
 public:
 	Team enemy_team;
 	void generate_team();
+    void select_move(Team& player_team);
+
+    double calculateAbilityScore(const Monster& enemyMonster, const Ability& ability, const Team& player_team);
+
 };
 
