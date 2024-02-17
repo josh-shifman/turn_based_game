@@ -221,7 +221,7 @@ void main()
 				enemy_1.select_move(player_team);
 
 				if (player_team.team_members.empty()) {
-					std::cout << "\n==============================\Enemy has won. " << std::endl;
+					std::cout << "\n==============================\nEnemy has won. " << std::endl;
 					break;
 				}
 				player_team.reduce_cooldowns();

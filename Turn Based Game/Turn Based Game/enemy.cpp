@@ -100,9 +100,7 @@ double enemy::calculateAbilityScore(const Monster& enemyMonster, const Ability& 
 
     // Check if the ability is single-target or multi-target
     if (ability.multiple == 1) {
-        // Single-target ability
 
-        // Find the player's monster with the lowest health
         double lowestHealth = std::numeric_limits<double>::max();
         Monster* targetMonster = nullptr;
         for (const Monster& playerMonster : player_team.team_members) {
@@ -112,25 +110,21 @@ double enemy::calculateAbilityScore(const Monster& enemyMonster, const Ability& 
             }
         }
 
-        // Calculate damage effectiveness based on element relations
         double damage = enemyMonster.attack * ability.d_multiplyer;
-        // Apply element effectiveness
+
         double effectiveness = element_relations[enemyMonster.element][targetMonster->element];
         damage *= effectiveness;
-        // Add score based on damage and effectiveness
+
         score += damage;
     }
     else {
-        // Multi-target ability
-
         // If the ability targets the entire team, element advantage doesn't matter
         if (ability.multiple == 5) {
-            // Add a fixed score for multi-target abilities
-            score = enemyMonster.attack * ability.d_multiplyer * 5; // Assuming there are 5 members in the player's team
+            score = enemyMonster.attack * ability.d_multiplyer * 5; 
         }
         else {
             // If the ability targets a subset of the team, just assign a random score
-            score = std::uniform_real_distribution<double>(0, 100)(gen); // Adjust score as needed
+            score = std::uniform_real_distribution<double>(0, 100)(gen); 
         }
     }
 
