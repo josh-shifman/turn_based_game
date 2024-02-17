@@ -103,3 +103,11 @@ void Team::begin_battle() {
 		it->ability_2->cooldown = 0;
 	}
 }
+
+void Team::regenerate_team(std::list<Monster> old_team)
+{
+	team_members.clear();
+
+	team_members.insert(team_members.end(), old_team.begin(), old_team.end());
+	
+}

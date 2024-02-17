@@ -13,4 +13,5 @@ public:
 	void display_team(bool collection_or_team);
 	void reduce_cooldowns();
 	void begin_battle();
+	void regenerate_team(std::list<Monster> old_team);
 };

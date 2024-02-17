@@ -18,8 +18,12 @@ std::map<std::string, std::map<std::string, double>> element_relations = {
 };
 
 
+bool Monster::operator==(const Monster& other) const {
+	// Compare attributes of the two Monster objects
+	return name == other.name && health == other.health;
+}
 
-void Monster::Attack(Monster& self, Monster& other, int ability_number)
+void Monster::Attack(Monster& self, Monster& other, int ability_number, Team& team)
 {
 	// Critical strike chance against neutral enemy is 50%, with element advantage 75%, with element disadvantage 25%
 	Ability chosen_ability{};
@@ -48,14 +52,24 @@ void Monster::Attack(Monster& self, Monster& other, int ability_number)
 	damage = damage * chosen_ability.d_multiplyer;
 
 	std::cout << chosen_ability.attack_name;
-	other.take_damage(other, damage);
+	other.take_damage(other, damage, team);
 		
 };
 
-void Monster::take_damage(Monster& self, int damage)
+void Monster::take_damage(Monster& self, int damage, Team& team)
 	{
 		self.health -= damage;
-		std::cout << " dealt " << damage << " Damage to " << self.element << " " << self.name << ". Health remaining : " << self.health << std::endl;
+		int hp = self.health;
+		std::string elem = self.element;
+		std::string mon_name = self.name;
+
+		if (self.health < 0)
+		{
+			self.health = 0;
+			hp = 0;
+			kill_monster(self, team);
+		}
+		std::cout << " dealt " << damage << " Damage to " << elem << " " << mon_name << ". Health remaining : " << hp << std::endl;
 	};
 
 void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num_of_attacks, int ability_number)
@@ -72,7 +86,7 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 	}
 	if (chosen_ability->cooldown > 0)
 	{
-		ability_cooldown(attacking_monster, chosen_ability);
+		std::cout << "Error, ability on cooldown";
 		return;
 	}
 	else
@@ -84,7 +98,7 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 	{
 		for (Monster& teammate : other.team_members)
 		{
-			attacking_monster.Attack(attacking_monster, teammate, ability_number);
+			attacking_monster.Attack(attacking_monster, teammate, ability_number, other);
 		}
 	}
 	else
@@ -111,7 +125,7 @@ void Monster::attack_other_team(Monster& attacking_monster, Team& other, int num
 
 		for (Monster* teammate : selected_teammates)
 		{
-			attacking_monster.Attack(attacking_monster, *teammate, ability_number);
+			attacking_monster.Attack(attacking_monster, *teammate, ability_number, other);
 		}
 	}
 }
@@ -128,3 +142,9 @@ void Monster::ability_cooldown(Monster& self, Ability* chosen_ability)
 		}
 	}
 }
+
+void Monster::kill_monster(Monster& self, Team& team)
+{
+	team.team_members.erase(std::find(team.team_members.begin(), team.team_members.end(), self));
+}
+

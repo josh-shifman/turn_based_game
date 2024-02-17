@@ -137,6 +137,7 @@ void main()
 			enemy enemy_1;
 			enemy_1.generate_team();
 			player_team.begin_battle();
+			std::list<Monster> old_team = player_team.team_members;
 
 			while (true)
 			{
@@ -146,9 +147,24 @@ void main()
 				std::cout << "\n==============================\nEnemy team:\n";
 				enemy_1.enemy_team.display_team(true);
 				
+				std::cout << "\n==============================\n0. Exit\n";
 
-				std::list<int> select_char_opts = { 1, 2, 3, 4, 5 };
-				int select_char_choice = validate_input("\n==============================\nSelect character: ", select_char_opts);
+				std::list<int> select_char_opts;
+				int index = 1;
+				for (const auto& team : player_team.team_members) {
+					select_char_opts.push_back(index);
+					index++;
+				}
+				//std::list<int> select_char_opts = { 1, 2, 3, 4, 5, 0 };
+				select_char_opts.push_back(0);
+				int select_char_choice = validate_input("Select character (1-5): ", select_char_opts);
+				
+
+				if (select_char_choice == 0) {
+					std::cout << "Exiting...\n";
+					player_team.regenerate_team(old_team);
+					break; // Exit the loop
+				}
 
 				auto it1 = player_team.team_members.begin();
 				std::advance(it1, select_char_choice - 1);
@@ -157,10 +173,12 @@ void main()
 				std::cout << "Ability 2: " << std::get<0>(characterAbilities[selected_mon.name].second) << std::endl;
 
 				std::list<int> select_ability_opts = { 1, 2 };
-				int ability_choice = validate_input("\n==============================\nSelect ability: ", select_ability_opts);
+				int ability_choice = validate_input("\n==============================\nSelect ability (1-2): ", select_ability_opts);
 
 				std::tuple<std::string, double, int, bool, int> selected_ability;
 
+
+				
 				if (ability_choice == 1) {
 					selected_ability = characterAbilities[selected_mon.name].first;
 				}
@@ -176,12 +194,13 @@ void main()
 				if (std::get<2>(selected_ability) == 1)
 				{
 					std::list<int> select_enemy_opts = { 1, 2, 3, 4, 5 };
-					int select_enemy_choice = validate_input("\n==============================\nSelect enemy to attack: ", select_char_opts);
+					int select_enemy_choice = validate_input("\n==============================\nSelect enemy to attack (1-5): ", select_char_opts);
 					auto it_enemy = enemy_1.enemy_team.team_members.begin();
 					std::advance(it_enemy, select_enemy_choice - 1);
 					Monster& selected_enemy_mon = *it_enemy;
 
-					selected_mon.Attack(selected_mon, selected_enemy_mon, ability_choice);
+					
+					selected_mon.Attack(selected_mon, selected_enemy_mon, ability_choice, enemy_1.enemy_team);
 				}
 				else
 				{
