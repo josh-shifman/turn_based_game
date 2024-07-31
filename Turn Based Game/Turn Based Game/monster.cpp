@@ -148,3 +148,11 @@ void Monster::kill_monster(Monster& self, Team& team)
 	team.team_members.erase(std::find(team.team_members.begin(), team.team_members.end(), self));
 }
 
+void Monster::level_up(Monster& self)
+{
+	self.level += 1;
+	self.attack *= 1.1;
+	self.health *= 1.1;
+	self.max_health *= 1.1;
+
+}

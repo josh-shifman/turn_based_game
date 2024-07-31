@@ -36,7 +36,7 @@ void enemy::generate_team()
         Ability* ab_1 = new Ability(std::get<0>(abilities.first), std::get<1>(abilities.first), std::get<2>(abilities.first), std::get<3>(abilities.first), std::get<4>(abilities.first));
         Ability* ab_2 = new Ability(std::get<0>(abilities.second), std::get<1>(abilities.second), std::get<2>(abilities.second), std::get<3>(abilities.second), std::get<4>(abilities.second));
 
-        Monster new_character(character_name, character_attack, character_health, character_health, character_elem, ab_1, ab_2);
+        Monster new_character(character_name, character_attack, character_health, character_health, character_elem, ab_1, ab_2, 1);
 
         enemy_team.add_to_team(new_character);
     }

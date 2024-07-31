@@ -20,11 +20,13 @@ public:
 	int attack;
 	Ability* ability_1;
 	Ability* ability_2;
+
+	int level;
 	//Ability ability_1;
 	//Ability ability_2;
 
 	
-	Monster(std::string n, int a, int h, int max, std::string e, Ability* ab1, Ability* ab2) : name(n), attack(a), health(h), max_health(max), element(e), ability_1(ab1), ability_2(ab2) {};
+	Monster(std::string n, int a, int h, int max, std::string e, Ability* ab1, Ability* ab2, int lv) : name(n), attack(a), health(h), max_health(max), element(e), ability_1(ab1), ability_2(ab2), level(lv) {};
 
 	std::map<std::string, std::map<std::string, double>> element_relations{};
 
@@ -39,5 +41,7 @@ public:
 	void ability_cooldown(Monster& self, Ability* chosen_ability);
 
 	void kill_monster(Monster& self, Team& team);
+
+	void level_up(Monster& self);
 
 };
